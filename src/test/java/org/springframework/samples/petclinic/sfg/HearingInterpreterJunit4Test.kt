@@ -1,16 +1,17 @@
 package org.springframework.samples.petclinic.sfg
 
-import org.junit.Assert
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.Test
 
-import org.junit.jupiter.api.Assertions.*
+import org.junit.Assert.*
+import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
+import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.junit4.SpringRunner
 
-@SpringJUnitConfig(classes = [BaseConfig::class])
-internal class HearingInterpreterTest {
+@RunWith(SpringRunner::class)
+@ContextConfiguration(classes = [BaseConfig::class])
+class HearingInterpreterJunit4Test {
 
     @Autowired
     lateinit var hearingInterpreter: HearingInterpreter
@@ -22,12 +23,12 @@ internal class HearingInterpreterTest {
     @Test
     fun whatIheard() {
         val whatIheard = hearingInterpreter.whatIheard()
-        Assert.assertEquals("Laurel", whatIheard)
+        assertEquals("Laurel", whatIheard)
     }
 
     @Test
     fun testThatYannyInterpreterWorks(){
         val whatIheard = yannyHearingInterpreter.whatIheard()
-        Assert.assertEquals("Yanny", whatIheard)
+        assertEquals("Yanny", whatIheard)
     }
 }

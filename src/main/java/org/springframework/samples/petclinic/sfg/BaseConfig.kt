@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Primary
 @Configuration
 open class BaseConfig {
     @Bean
+    @Primary
     open fun hearingInterpreter(wordProducer: WordProducer): HearingInterpreter {
         return HearingInterpreter(wordProducer)
     }
