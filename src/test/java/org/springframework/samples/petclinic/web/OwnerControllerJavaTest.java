@@ -16,7 +16,9 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringJUnitWebConfig(locations = {"classpath:/spring/mvc-core-config.xml", "classpath:/spring/mvc-test-config.xml"})
@@ -61,5 +63,29 @@ class OwnerControllerJavaTest {
         mockMvc.perform(get("/owners").param("lastName", "TEST_name"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/owners/1"));
+    }
+
+    @Test
+    void testProcessUpdateOwnerFormSuccess() throws Exception {
+        mockMvc.perform(
+                post("/owners/{ownerId}/edit", 1)
+                        .param("address", "test")
+                        .param("city", "test")
+                        .param("telephone", "1233211234")
+                        .param("firstName", "test")
+                        .param("lastName", "test")
+        ).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/owners/1"));
+    }
+
+    @Test
+    void testProcessUpdateOwnerFormError() throws Exception {
+        mockMvc.perform(
+                post("/owners/{ownerId}/edit", 1)
+                        .param("address", "test")
+                        .param("city", "test")
+                        .param("firstName", "test")
+                        .param("lastName", "test")
+        ).andExpect(status().isOk()).andExpect(view().name("owners/createOrUpdateOwnerForm"))
+        .andExpect(model().attributeHasErrors("owner")).andExpect(model().attributeHasFieldErrors("owner","telephone"));
     }
 }
